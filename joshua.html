@@ -6,7 +6,7 @@
 html {
   overflow: hidden;
 }
-#outerContainer {
+#outer {
   position: absolute !important;
   top: 40%;
   left: 50%;
@@ -16,7 +16,7 @@ html {
   height: 400px;
   position: relative;
 }
-#innerContainer {
+#inner {
   display: table-cell;
   position: absolute;
   top: 50%;
@@ -25,24 +25,39 @@ html {
   position: static;
 }
 #content {
-  height: 7ex;
   position: relative;
   top: -50%;
   font-size: 2em;
+  line-height: 100%;
 }
     </style>
-  </head>
-  <body>
-    <div id="outerContainer">
-      <div id="innerContainer">
-        <div id="content"><pre></pre></div>
-      </div>
-    </div>
     <script type="text/javascript">
-        var lines = Array('A STRANGE GAME.', 'THE ONLY WINNING MOVE IS', 'NOT TO PLAY.', ' ', 'HOW ABOUT A NICE GAME OF CHESS?');
-        for(l in lines) {
-            document.getElementById("content").innerHTML += '<pre>' + lines[l] + '</pre>';
+      var launchCode = "CPE 1704 TKS";
+      var lines = Array("A STRANGE GAME.", "THE ONLY WINNING MOVE IS",
+        "NOT TO PLAY.", "", "HOW ABOUT A NICE GAME OF CHESS?");
+
+      var currentLine = 0;
+      var cusorPos = 0;
+
+      function ticker() {
+        var content = document.getElementById("content");
+        content.innerHTML = '<pre>' + lines[currentLine].substring(0, cusorPos) + "_</pre>";
+        if(cusorPos++ == lines[currentLine].length) {
+          if(currentLine++ < lines.length) {
+            cusorPos = 0;
+            setTimeout("ticker()", 1000);
+          }
+        } else {
+          setTimeout("ticker()", 50);
         }
+      }
+      window.onload=ticker;
     </script>
-  </body>
-</html>
+</head>
+<body>
+  <div id="outer">
+    <div id="inner">
+      <div id="content" />
+    </div>
+  </div>
+</body>

@@ -41,7 +41,7 @@ html {
       var timoutId = 0;
 
       function ticker() {
-        document.onclick=null;
+        document.onclick = null;
 
         var content = document.getElementById("content");
         content.innerHTML = '<pre>' + lines[currentLine].substring(0, cusorPos) + "_</pre>";
@@ -50,18 +50,17 @@ html {
             cusorPos = 0;
             timoutId = setTimeout("ticker()", 1000);
           } else {
-            document.onclick=restart;
+            document.onclick = function() {
+              clearTimeout(timoutId);
+              timoutId = 0;
+              currentLine = 0;
+              cusorPos = 0;
+              setTimeout("ticker()", 0);
+            };
           }
         } else {
           timoutId = setTimeout("ticker()", 50);
         }
-      }
-      function restart() {
-        clearTimeout(timoutId);
-        timoutId = 0;
-        currentLine = 0;
-        cusorPos = 0;
-        setTimeout("ticker()", 0);
       }
       window.onload=ticker;
     </script>

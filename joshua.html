@@ -38,18 +38,30 @@ html {
 
       var currentLine = 0;
       var cusorPos = 0;
+      var timoutId = 0;
 
       function ticker() {
+        document.onclick=null;
+
         var content = document.getElementById("content");
         content.innerHTML = '<pre>' + lines[currentLine].substring(0, cusorPos) + "_</pre>";
         if(cusorPos++ == lines[currentLine].length) {
-          if(currentLine++ < lines.length) {
+          if(++currentLine < lines.length) {
             cusorPos = 0;
-            setTimeout("ticker()", 1000);
+            timoutId = setTimeout("ticker()", 1000);
+          } else {
+            document.onclick=restart;
           }
         } else {
-          setTimeout("ticker()", 50);
+          timoutId = setTimeout("ticker()", 50);
         }
+      }
+      function restart() {
+        clearTimeout(timoutId);
+        timoutId = 0;
+        currentLine = 0;
+        cusorPos = 0;
+        setTimeout("ticker()", 0);
       }
       window.onload=ticker;
     </script>
